@@ -3,6 +3,7 @@ import time
 import shutil
 import folder_paths
 import numpy as np
+from pydub import AudioSegment
 from multiprocessing import cpu_count
 from scipy.io.wavfile import write as wavwrite
 from .rvc.train import vc,gpus,default_batch_size,preprocess_dataset,extract_f0_feature,train1key
@@ -15,6 +16,7 @@ os.environ["weight_root"] = rvc_out_path
 os.environ["index_root"] = rvc_out_path
 os.environ["rmvpe_root"] = os.path.join(now_dir,"rvc","assets","rmvpe")
 os.environ["hubert_base"] = os.path.join(now_dir,"rvc","assets","hubert","hubert_base.pt")
+os.makedirs(os.path.join(now_dir,"rvc","assets", "weights"),exist_ok=True)
 class RVC_Infer:
     @classmethod
     def INPUT_TYPES(s):
@@ -211,6 +213,31 @@ class RVC_Train:
         shutil.copy(weight_path, os.path.join(rvc_out_path,f"{exp_name}.pth"))
         return {"ui": {"train":[rvc_out_path]}}
 
+class CombineAudio:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {"required":
+                    {"vocal_AUDIO": ("AUDIO",),
+                     "bgm_AUDIO": ("AUDIO",)
+                     }
+                }
+
+    CATEGORY = "AIFSH_RVC"
+    DESCRIPTION = "hello world!"
+
+    RETURN_TYPES = ("AUDIO",)
+
+    OUTPUT_NODE = True
+
+    FUNCTION = "combine_audio"
+
+    def combine_audio(self, vocal_AUDIO, bgm_AUDIO):
+        vocal = AudioSegment.from_file(vocal_AUDIO)
+        bgm = AudioSegment.from_file(bgm_AUDIO)
+        audio = vocal.overlay(bgm)
+        audio_file = os.path.join(out_path,f"{time.time()}_rvc_result_voice.wav")
+        audio.export(audio_file, format="wav")
+        return (audio_file,)
 
 class PreViewAudio:
     @classmethod

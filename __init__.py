@@ -37,7 +37,7 @@ else:
 
 
 WEB_DIRECTORY = "./web"
-from .nodes import LoadAudio, PreViewAudio,RVC_Train,RVC_Infer
+from .nodes import LoadAudio, PreViewAudio,RVC_Train,RVC_Infer,CombineAudio
 
 # Set the web directory, any .js file in that directory will be loaded by the frontend as a frontend extension
 # WEB_DIRECTORY = "./somejs"
@@ -48,15 +48,17 @@ NODE_CLASS_MAPPINGS = {
     "LoadAudio": LoadAudio,
     "PreViewAudio": PreViewAudio,
     "RVC_Train": RVC_Train,
-    "RVC_Infer": RVC_Infer
+    "RVC_Infer": RVC_Infer,
+    "CombineAudio": CombineAudio
 }
 
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "LoadAudio": "AudioLoader",
     "PreViewAudio": "PreView Audio",
-    "RVC_Train": "RVC_Train",
-    "RVC_Infer": "RVC_Infer"
+    "RVC_Train": "RVC Train",
+    "RVC_Infer": "RVC Inference",
+    "CombineAudio": "CombineAudio"
 }
 
 @PromptServer.instance.routes.get("/rvc/reboot")
