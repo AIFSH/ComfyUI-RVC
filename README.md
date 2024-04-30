@@ -20,8 +20,9 @@ pip install -r requirements.txt
 or if you still struggle with huggingface, you may try follow [hf-mirror](https://hf-mirror.com/) to config your env.
 
 或者下载[rvc_assets.zip](https://pan.quark.cn/s/039c8d2d59ac)解压后放置到`ComfyUI-RVC/rvc`目录
+
 ## Tutorial
-todo
+[Demo](https://www.bilibili.com/video/BV1bH4y1P7n9/)
 
 ## WeChat Group && Donate
 <div>
